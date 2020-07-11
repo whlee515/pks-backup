@@ -8,4 +8,4 @@ source export-env.sh
 
 #########
 
-bbr-pipeline-tasks-repo/tasks/export-om-installation/task.sh
+bash bbr-pipeline-tasks-repo/tasks/export-om-installation/task.sh

@@ -8,4 +8,4 @@ source export-env.sh
 
 #########
 
-bbr-pipeline-tasks-repo/tasks/bbr-cleanup-director/task.sh
+bash bbr-pipeline-tasks-repo/tasks/bbr-cleanup-director/task.sh
