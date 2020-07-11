@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 ##Extract output to log file
 DATE=$(date +"%Y%m%d_%H%M%S")
@@ -11,7 +11,7 @@ mkdir -p ~/backup-storage/$DIRECTORY
 #Create Opsman backup directory
 mkdir -p ./om-installation 
 echo "Running backup of Opsman Installation......"
-./export-om-installation.sh
+bash export-om-installation.sh
 if [ $? -eq 0 ]
 then
   echo "Backup Opsman Installation......DONE"
@@ -26,7 +26,7 @@ fi
 
 ##Run Check Opsman Status script
 echo "Running Check Opsman Status Script......"
-./check-opsman-status.sh
+bash check-opsman-status.sh
 if [ $? -eq 0 ]
 then
   echo "Opsman Status check......DONE"
@@ -38,14 +38,14 @@ fi
 
 #Run Lock PKS script
 echo "Locking Access to PKS API server......"
-./lock-pks.sh
+bash lock-pks.sh
 if [ $? -eq 0 ]
 then
   echo "Lock access to PKS API server......DONE"
 else
   echo "Lock access to PKS API server......FAILED"
   echo "Unlocking access to PKS API server......"
-  ./unlock-pks.sh
+  bash unlock-pks.sh
   echo "Exiting..."
   exit 1
 fi
@@ -53,7 +53,7 @@ fi
 #Run BOSH Director Backup script
 echo "Running BOSH Director backup Script......"
 mkdir -p ./director-backup-artifact
-./bbr-backup-director.sh
+bash bbr-backup-director.sh
 if [ $? -eq 0 ]
 then
   echo "BOSH Director backup......DONE"
@@ -63,9 +63,9 @@ then
 else
   echo "BOSH Director backup......FAILED"
   echo "Running Cleanup script"
-  ./bbr-cleanup-director.sh
+  bash bbr-cleanup-director.sh
   echo "Unlocking access to PKS API server......"
-  ./unlock-pks.sh
+  bash unlock-pks.sh
   echo "Exiting..."
   exit 1
 fi
@@ -73,7 +73,7 @@ fi
 #Run PKS Backup script
 echo "Running PKS backup Script......"
 mkdir -p ./pks-backup-artifact
-./bbr-backup-pks.sh
+bash bbr-backup-pks.sh
 if [ $? -eq 0 ]
 then
   echo "PKS backup......DONE"
@@ -83,9 +83,9 @@ then
 else
   echo "PKS backup......FAILED"
   echo "Running Cleanup script"
-  ./bbr-cleanup-pks.sh
+  bash bbr-cleanup-pks.sh
   echo "Unlocking access to PKS API server......"
-  ./unlock-pks.sh
+  bash unlock-pks.sh
   echo "Exiting..."
   exit 1
 fi
@@ -93,7 +93,7 @@ fi
 #Run PKS Backup script
 echo "Running PKS Cluster backup Script......"
 mkdir -p ./pks-clusters-backup-artifact
-./bbr-backup-pks-clusters.sh
+bash bbr-backup-pks-clusters.sh
 if [ $? -eq 0 ]
 then
   echo "PKS Cluster backup......DONE"
@@ -103,16 +103,16 @@ then
 else
   echo "PKS Cluster backup......FAILED"
   echo "Running Cleanup script"
-  ./bbr-cleanup-pks-clusters.sh
+  bash bbr-cleanup-pks-clusters.sh
   echo "Unlocking access to PKS API server......"
-  ./unlock-pks.sh
+  bash unlock-pks.sh
   echo "Exiting..."
   exit 1
 fi
 
 #Run Unlock PKS script
 echo " Running Unlock PKS Script......"
-./unlock-pks.sh
+bash unlock-pks.sh
 if [ $? -eq 0 ]
 then
   echo "Unlocking access to PKS API server......DONE"
