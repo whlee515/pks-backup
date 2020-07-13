@@ -1,6 +1,0 @@
-export SKIP_SSL_VALIDATION=true
-export OPSMAN_URL=https://192.168.202.11/
-export OPSMAN_USERNAME=admin
-export OPSMAN_PASSWORD="2KNgljlHoBgHuzRlcoOW"
-#export OPSMAN_PRIVATE_KEY=
-
