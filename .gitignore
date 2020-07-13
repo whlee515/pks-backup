@@ -1,2 +1,5 @@
 #Ignore Environment Variable files
 export-env.sh
+*.json
+*.crt
+binary/
