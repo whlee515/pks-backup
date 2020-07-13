@@ -1,4 +1,4 @@
-#I/bin/bash
+#!/bin/bash
 
 #Prompt User for details of Opsman
 echo "Enter Hostname/IP for OPSMAN:"
