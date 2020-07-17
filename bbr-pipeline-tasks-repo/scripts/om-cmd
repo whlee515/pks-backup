@@ -2,6 +2,8 @@
 
 shopt -s expand_aliases
 
+set -xeu
+
 skip_ssl=${SKIP_SSL_VALIDATION:-false}
 skip_ssl_flag=""
 

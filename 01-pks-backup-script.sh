@@ -1,11 +1,16 @@
 #!/bin/bash
 
+#Setup debug flag and source directory
+set -xeu
+cd "$(dirname "$0")"
+
+#Setup environment variables
+source export-env.sh
+
 ##Extract output to log file
 DATE=$(date +"%Y%m%d_%H%M%S")
-LOGFILE="backup-stdout-$DATE.log"
-DIRECTORY="backup-$DATE"
-mkdir -p ~/backup-storage/$DIRECTORY
-#exec &> ./backup-storage/$DIRECTORY/$LOGFILE
+#BACKUP_DIR=$HOME/backup-storage/backup-$DATE
+#mkdir -p $BACKUP_DIR 
 
 ##Run backup of Opsman Installation
 #Create Opsman backup directory
@@ -16,7 +21,7 @@ if [ $? -eq 0 ]
 then
   echo "Backup Opsman Installation......DONE"
   #Move Opsman installation configuration to centralized location
-  cp -var ./om-installation/ ~/backup-storage/$DIRECTORY
+  cp -var ./om-installation/ $BACKUP_DIR/
   rm -vrf ./om-installation
 else
   echo "Backup Opsman Installation......FAILED"
@@ -36,87 +41,3 @@ else
   exit 1
 fi
 
-#Run Lock PKS script
-echo "Locking Access to PKS API server......"
-bash lock-pks.sh
-if [ $? -eq 0 ]
-then
-  echo "Lock access to PKS API server......DONE"
-else
-  echo "Lock access to PKS API server......FAILED"
-  echo "Unlocking access to PKS API server......"
-  bash unlock-pks.sh
-  echo "Exiting..."
-  exit 1
-fi
-
-#Run BOSH Director Backup script
-echo "Running BOSH Director backup Script......"
-mkdir -p ./director-backup-artifact
-bash bbr-backup-director.sh
-if [ $? -eq 0 ]
-then
-  echo "BOSH Director backup......DONE"
-  #Move artifact to centralized location
-  cp -var ./director-backup-artifact/ ~/backup-storage/$DIRECTORY
-  rm -vrf ./director-backup-artifact
-else
-  echo "BOSH Director backup......FAILED"
-  echo "Running Cleanup script"
-  bash bbr-cleanup-director.sh
-  echo "Unlocking access to PKS API server......"
-  bash unlock-pks.sh
-  echo "Exiting..."
-  exit 1
-fi
-
-#Run PKS Backup script
-echo "Running PKS backup Script......"
-mkdir -p ./pks-backup-artifact
-bash bbr-backup-pks.sh
-if [ $? -eq 0 ]
-then
-  echo "PKS backup......DONE"
-  #Move artifact to centralized location
-  cp -var ./pks-backup-artifact/ ~/backup-storage/$DIRECTORY
-  rm -vrf ./pks-backup-artifact
-else
-  echo "PKS backup......FAILED"
-  echo "Running Cleanup script"
-  bash bbr-cleanup-pks.sh
-  echo "Unlocking access to PKS API server......"
-  bash unlock-pks.sh
-  echo "Exiting..."
-  exit 1
-fi
-
-#Run PKS Backup script
-echo "Running PKS Cluster backup Script......"
-mkdir -p ./pks-clusters-backup-artifact
-bash bbr-backup-pks-clusters.sh
-if [ $? -eq 0 ]
-then
-  echo "PKS Cluster backup......DONE"
-  #Move artifact to centralized location
-  cp -var ./pks-clusters-backup-artifact/ ~/backup-storage/$DIRECTORY
-  rm -vrf ./pks-clusters-backup-artifact
-else
-  echo "PKS Cluster backup......FAILED"
-  echo "Running Cleanup script"
-  bash bbr-cleanup-pks-clusters.sh
-  echo "Unlocking access to PKS API server......"
-  bash unlock-pks.sh
-  echo "Exiting..."
-  exit 1
-fi
-
-#Run Unlock PKS script
-echo " Running Unlock PKS Script......"
-bash unlock-pks.sh
-if [ $? -eq 0 ]
-then
-  echo "Unlocking access to PKS API server......DONE"
-else
-  echo "Unlocking access to PKS API server......FAILED"
-  exit 1
-fi

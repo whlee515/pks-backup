@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -eu
+set -xeu
 
 # shellcheck disable=SC1090
 source "$(dirname "$0")/../../scripts/om-cmd"
