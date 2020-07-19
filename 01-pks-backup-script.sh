@@ -9,8 +9,8 @@ source export-env.sh
 
 ##Extract output to log file
 DATE=$(date +"%Y%m%d_%H%M%S")
-#BACKUP_DIR=$HOME/backup-storage/backup-$DATE
-#mkdir -p $BACKUP_DIR 
+BACKUP_DIR=$HOME/backup-storage/backup-$DATE
+mkdir -p $BACKUP_DIR 
 
 ##Run backup of Opsman Installation
 #Create Opsman backup directory

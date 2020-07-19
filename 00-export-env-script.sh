@@ -31,5 +31,5 @@ export OPSMAN_PASSWORD="$OPSMAN_PASSWORD"
 #export OPSMAN_PRIVATE_KEY=
 
 #Directory Environment variables
-export BACKUP_DIR=$HOME/backup-storage/backup-\$(date +"%Y%m%d_%H%M%S") 
+export BACKUP_BINARY_DIR=$BACKUP_BINARY_DIR
 EOF
