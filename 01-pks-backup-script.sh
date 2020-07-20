@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #Setup debug flag and source directory
-set -xeu
+set -eu
 cd "$(dirname "$0")"
 
 #Setup environment variables
@@ -117,7 +117,7 @@ else
 fi
 
 #Run Unlock PKS script
-echo -e $DEBIG_TEXT "Running Unlock PKS Script......"
+echo -e $DEBUG_TEXT "Running Unlock PKS Script......"
 bash unlock-pks.sh
 if [ $? -eq 0 ]
 then
